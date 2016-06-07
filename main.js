@@ -34,7 +34,7 @@ var area = {
 
 function startGame() {
   area.create();
-  tank = new Tank(area.context, 10, 50);
+  tank = new Tank(area.context, 10, 10);
   area.start();
 }
 
