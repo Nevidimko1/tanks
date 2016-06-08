@@ -1,6 +1,4 @@
 var Tank = function(ctx, _x, _y) {
-  var strokeColor = 'black';
-  var fillColor = 'white';
   var x = _x;
   var y = _y;
   var images = {};
@@ -18,11 +16,11 @@ var Tank = function(ctx, _x, _y) {
   this.update = function(){
     ctx.save();
     ctx.lineWidth = 2;
-    ctx.scale(0.5,0.5);
+    ctx.scale(0.2,0.2);
     drawLeftSlide();
     drawRightSlide();
-    ctx.drawImage(images["body"], x, y-neutral);
-    ctx.drawImage(images["gun2"], x, y);
+    drawBody();
+    ctx.drawImage(images["gun"], x, y);
     ctx.restore();
   }
   
@@ -34,7 +32,7 @@ var Tank = function(ctx, _x, _y) {
   loadImage("lslide");
   loadImage("rslide");
   loadImage("body");
-  loadImage("gun2");
+  loadImage("gun");
 
   
   function drawLeftSlide() {
@@ -45,9 +43,13 @@ var Tank = function(ctx, _x, _y) {
   }
 
   function drawRightSlide() {
-    ctx.drawImage(images["rslide"], x, y);
+    ctx.drawImage(images["rslide"], x+6, y);
     for(var n = 0; n < 17; n++) {
-      ctx.sRect(294, 180+n*20-slides, 48, 1);
+      ctx.sRect(300, 180+n*20-slides, 48, 1);
     }
+  }
+
+  function drawBody() {
+    ctx.drawImage(images["body"], x, y-neutral);
   }
 }
