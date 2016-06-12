@@ -1,7 +1,9 @@
-var Tank = function(area, _initX, _initY) {
+var Tank = function(main, _initX, _initY) {
+  var area = main.area;
+  var bulletService = main.bulletService;
   var ctx = area.context;
-  var x = _initX;
-  var y = _initY;
+  var x = _initX + 16;
+  var y = _initY + 16;
   var direction = 0;  //0 - top, 1 - right, 2 - bottom, 3 - left
   var bullets = [];   //{x: 1, y: 1, dir: 0}
 
@@ -16,22 +18,6 @@ var Tank = function(area, _initX, _initY) {
     ctx.rotate(90*direction*Math.PI/180);
     ctx.drawImage(image, -(image.width/2), -(image.height/2));
     ctx.restore();
-
-    moveAndDrawBullets();
-  }
-
-  function moveAndDrawBullets() {
-    for(var n in bullets) {
-      if (bullets[n].dir === 0) bullets[n].y-=2;
-      else if (bullets[n].dir === 1) bullets[n].x+=2;
-      else if (bullets[n].dir === 2) bullets[n].y+=2;
-      else if (bullets[n].dir === 3) bullets[n].x-=2;
-      ctx.beginPath();
-      ctx.arc(bullets[n].x, bullets[n].y, 2, 0, 2*Math.PI);
-      ctx.stroke();
-      ctx.fill();
-      ctx.closePath();
-    }
   }
 
   var disableFire = false;
@@ -44,7 +30,7 @@ var Tank = function(area, _initX, _initY) {
     else if(direction === 1) bX+=15;
     else if(direction === 2) bY+=15;
     else if(direction === 3) bX-=15;
-    bullets.push({x: bX, y: bY, dir: direction});
+    bulletService.addBullet(bX, bY, direction);
     disableFire = true;
     setTimeout(function() {disableFire = false}, 500);
   }
