@@ -2,17 +2,34 @@ var BulletService = function(area) {
   var ctx = area.context;
   var bullets = [];   //{x: 1, y: 1, dir: 0}
 
-  this.moveAndDrawBullets = function () {
+  function drawBullet(x, y) {
+    ctx.beginPath();
+    ctx.arc(x, y, 2, 0, 2*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  this.moveAndDrawBullets = function() {
     for(var n in bullets) {
-      if (bullets[n].dir === 0) bullets[n].y-=2;
-      else if (bullets[n].dir === 1) bullets[n].x+=2;
-      else if (bullets[n].dir === 2) bullets[n].y+=2;
-      else if (bullets[n].dir === 3) bullets[n].x-=2;
-      ctx.beginPath();
-      ctx.arc(bullets[n].x, bullets[n].y, 2, 0, 2*Math.PI);
-      ctx.stroke();
-      ctx.fill();
-      ctx.closePath();
+      var reachedEnd = false;
+      if (bullets[n].dir === 0) {
+        bullets[n].y-=2;
+        reachedEnd = !area.canMoveUp(bullets[n].x, bullets[n].y, 2, 2); 
+      }else if (bullets[n].dir === 1) {
+        bullets[n].x+=2;
+        reachedEnd = !area.canMoveRight(bullets[n].x, bullets[n].y, 2, 2); 
+      }else if (bullets[n].dir === 2) {
+        bullets[n].y+=2;
+        reachedEnd = !area.canMoveDown(bullets[n].x, bullets[n].y, 2, 2); 
+      }else if (bullets[n].dir === 3) {
+        bullets[n].x-=2;
+        reachedEnd = !area.canMoveLeft(bullets[n].x, bullets[n].y, 2, 2); 
+      }
+
+      drawBullet(bullets[n].x, bullets[n].y);
+      if(reachedEnd)        
+        bullets.splice(n, 1);
     }
   }
 

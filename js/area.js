@@ -27,4 +27,30 @@ var Area = function(width, height) {
   this.clear = function() {
     this.context.clearRect(0, 0, canvas.width, canvas.height);
   };
+
+  //check navigation
+  this.canMoveUp = function(x, y, width, height) {
+    var result = true;
+    if(y <= 0)
+      result = false;
+    return result;
+  }
+  this.canMoveRight = function(x, y, width, height) {
+    var result = true;
+    if(x + width >= canvas.width)
+      result = false;
+    return result;
+  }
+  this.canMoveDown = function(x, y, width, height) {
+    var result = true;
+    if(y + height >= canvas.height)
+      result = false;
+    return result;
+  }
+  this.canMoveLeft = function(x, y, width, height) {
+    var result = true;
+    if(x <= 0)
+      result = false;
+    return result;
+  }
 }
