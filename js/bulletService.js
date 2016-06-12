@@ -12,23 +12,13 @@ var BulletService = function(area) {
 
   this.moveAndDrawBullets = function() {
     for(var n in bullets) {
-      var reachedEnd = false;
-      if (bullets[n].dir === 0) {
-        bullets[n].y-=2;
-        reachedEnd = !area.canMoveUp(bullets[n].x, bullets[n].y, 2, 2); 
-      }else if (bullets[n].dir === 1) {
-        bullets[n].x+=2;
-        reachedEnd = !area.canMoveRight(bullets[n].x, bullets[n].y, 2, 2); 
-      }else if (bullets[n].dir === 2) {
-        bullets[n].y+=2;
-        reachedEnd = !area.canMoveDown(bullets[n].x, bullets[n].y, 2, 2); 
-      }else if (bullets[n].dir === 3) {
-        bullets[n].x-=2;
-        reachedEnd = !area.canMoveLeft(bullets[n].x, bullets[n].y, 2, 2); 
-      }
+      if (bullets[n].dir === 0) bullets[n].y-=2;
+      else if (bullets[n].dir === 1) bullets[n].x+=2;
+      else if (bullets[n].dir === 2) bullets[n].y+=2;
+      else if (bullets[n].dir === 3) bullets[n].x-=2;
 
       drawBullet(bullets[n].x, bullets[n].y);
-      if(reachedEnd)        
+      if(!area.canMove(bullets[n].x, bullets[n].y, 2, 2, bullets[n].dir))
         bullets.splice(n, 1);
     }
   }

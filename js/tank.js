@@ -39,16 +39,16 @@ var Tank = function(main, _initX, _initY) {
     var pressedKey = null;
     var moveInterval = setInterval(function() {
       if (pressedKey === 37) {
-        if(area.canMoveLeft(x, y, image.width, image.height)) x--; 
+        if(area.canMove(x-1, y, image.width, image.height, 3)) x--; 
         direction = 3;
       } else if (pressedKey === 38) {
-        if(area.canMoveUp(x, y, image.width, image.height)) y--; 
+        if(area.canMove(x, y-1, image.width, image.height, 0)) y--; 
         direction = 0;
       } else if (pressedKey === 39) {
-        if(area.canMoveRight(x, y, image.width, image.height)) x++; 
+        if(area.canMove(x+1, y, image.width, image.height, 1)) x++; 
         direction = 1;
       } else if (pressedKey === 40) {
-        if(area.canMoveDown(x, y, image.width, image.height)) y++; 
+        if(area.canMove(x, y+1, image.width, image.height, 2)) y++; 
         direction = 2;
       }
     }, 20);

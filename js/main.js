@@ -11,5 +11,6 @@ function startGame() {
 function updateGameArea() {
   area.clear();       
   tank.update();
+  area.drawObjects();
   bulletService.moveAndDrawBullets();
 }
