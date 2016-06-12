@@ -1,9 +1,9 @@
-var Area = function() {
+var Area = function(width, height) {
   this.canvas = document.createElement("canvas");
   this.create = function() {
     this.canvas.setAttribute('id', 'canvas');
-    this.canvas.width = 400;
-    this.canvas.height = 400;
+    this.canvas.width = width*32;
+    this.canvas.height = height*32;
     this.context = this.canvas.getContext("2d");
     this.context.sRect = function(x,y,w,h) {
       x=parseInt(x)+0.50;

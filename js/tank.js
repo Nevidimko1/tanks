@@ -50,40 +50,30 @@ var Tank = function(area, _initX, _initY) {
   }
 
   function addListeners() {
-    var pressedKeys = [];
+    var pressedKey = null;
     var moveInterval = setInterval(function() {
-      if (pressedKeys[0] === 37) {x--; direction = 3;}
-      else if (pressedKeys[0] === 38) {y--; direction = 0;}
-      else if (pressedKeys[0] === 39) {x++; direction = 1;}
-      else if (pressedKeys[0] === 40) {y++; direction = 2;}
+      if (pressedKey === 37) {x--; direction = 3;}
+      else if (pressedKey === 38) {y--; direction = 0;}
+      else if (pressedKey === 39) {x++; direction = 1;}
+      else if (pressedKey === 40) {y++; direction = 2;}
     }, 20);
-    function pressedId(key) {
-      for(var n in pressedKeys) {
-        if(key === pressedKeys[n])
-          return n;
-      }
-      return null;
-    }
-    function add(key) {
-      pressedKeys[0] = key;
-    }
     
     $(document).keydown(function(e){
-      if(pressedId(e.keyCode))
+      if(pressedKey === e.keyCode)
         return;
         
-      if (e.keyCode === 37) add(e.keyCode);
-      if (e.keyCode === 38) add(e.keyCode);
-      if (e.keyCode === 39) add(e.keyCode);
-      if (e.keyCode === 40) add(e.keyCode);
+      if (e.keyCode === 37) pressedKey = e.keyCode;
+      if (e.keyCode === 38) pressedKey = e.keyCode;
+      if (e.keyCode === 39) pressedKey = e.keyCode;
+      if (e.keyCode === 40) pressedKey = e.keyCode;
       //space
       if (e.keyCode === 32) fire();
     });
 
     $(document).keyup(function(e){
-      var pressed = pressedId(e.keyCode);
-      if(pressed && pressed > -1)
-        pressedKeys.splice(pressed, 1);
+      if(pressedKey === e.keyCode) {
+        pressedKey = null;
+      }
     });
   }
 }
