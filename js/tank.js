@@ -51,7 +51,7 @@ var Tank = function(main, _initX, _initY) {
         if(area.canMove(x, y+1, image.width, image.height, 2)) y++; 
         direction = 2;
       }
-    }, 20);
+    }, 10);
     
     $(document).keydown(function(e){
       if(pressedKey === e.keyCode)

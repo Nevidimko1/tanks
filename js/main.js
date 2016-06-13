@@ -4,7 +4,7 @@ function startGame() {
   area = new Area(20, 15);
   bulletService = new BulletService(area);
 
-  tank = new Tank(this, 0, 0);
+  tank = new Tank(this, area.playerPosition.x, area.playerPosition.y);
   area.start();
 }
 

@@ -1,8 +1,11 @@
 var Area = function(width, height) {
+  var that = this;
   const canvas = document.createElement("canvas");
   canvas.setAttribute('id', 'canvas');
-  canvas.width = width*32;
-  canvas.height = height*32;
+  const cellSize = 32;
+  this.playerPosition = {};
+  canvas.width = MAP1.width*cellSize;
+  canvas.height = MAP1.height*cellSize;
   this.context = canvas.getContext("2d");
   this.context.sRect = function(x,y,w,h) {
     x=parseInt(x)+0.50;
@@ -37,58 +40,47 @@ var Area = function(width, height) {
     else if(intersectsWithObject(x, y, w, h)) return false;
     return true;
   }
-  this.canMoveUp = function(x, y, w, h) {
-    var result = true;
-    if(y < 0)
-      result = false;
-    if(intersectsWithObject(x, y, w, h))
-      result = false;
-    return result;
-  }
-  this.canMoveRight = function(x, y, w, h) {
-    var result = true;
-    if(x + w > canvas.width)
-      result = false;
-    if(intersectsWithObject(x, y, w, h))
-      result = false;
-    return result;
-  }
-  this.canMoveDown = function(x, y, w, h) {
-    var result = true;
-    if(y + h > canvas.height)
-      result = false;
-    if(intersectsWithObject(x, y, w, h))
-      result = false;
-    return result;
-  }
-  this.canMoveLeft = function(x, y, w, h) {
-    var result = true;
-    if(x < 0)
-      result = false;
-    if(intersectsWithObject(x, y, w, h))
-      result = false;
-    return result;
-  }
 
   function intersectsWithObject(x, y, w, h, d) {
     var result = false;
     for(var n in objects) {
       var o = objects[n];
-      if (x <= (o.x + o.w - 1) && 
+      if (x <= (o.x + cellSize - 1) && 
           (x + w) >=  o.x + 1  && 
-          y <= (o.y + o.h - 1) &&
+          y <= (o.y + cellSize - 1) &&
           (y + h) >=  o.y + 1)
         return true;
     }
     return false;
   }
 
+  function loadMap(data) {
+    var objects = [];
+    for(var i in data) {
+      for(var j in data[i]) {
+        if(data[i][j] === 'p') {
+          that.playerPosition = {x: j*cellSize, y: i*cellSize};
+        }else if(data[i][j] !== '0')
+          objects.push({x: j*cellSize, y: i*cellSize, type: Number(data[i][j])-1+''});
+        
+      }
+    }
+    return objects;
+  }
+
   //objects on the map
-  var objects = [{x:96, y: 0, w: 32, h: 32}, {x:64, y: 32, w: 32, h: 32}, {x:32, y: 64, w: 32, h: 32}, {x:0, y: 96, w: 32, h: 32}];
+  var names = ['strawberry', 'wall1'];
+  var images = {};
+  for(var n in names) {
+    images[n] = new Image();
+    images[n].src = 'images/' + names[n] + '.png';
+  }
+
+  var objects = loadMap(MAP1.data);
   this.drawObjects = function() {
     for(var n in objects) {
       var o = objects[n];
-      this.context.sRect(o.x, o.y, o.w, o.h);
+      this.context.drawImage(images[o.type], o.x, o.y);
     }
   }
 }
