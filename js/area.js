@@ -2,10 +2,10 @@ var Area = function(width, height) {
   var that = this;
   const canvas = document.createElement("canvas");
   canvas.setAttribute('id', 'canvas');
-  const cellSize = 32;
+  this.cellSize = 32;
   this.playerPosition = {};
-  canvas.width = MAP1.width*cellSize;
-  canvas.height = MAP1.height*cellSize;
+  canvas.width = MAP1.width*this.cellSize;
+  canvas.height = MAP1.height*this.cellSize;
   this.context = canvas.getContext("2d");
   this.context.sRect = function(x,y,w,h) {
     x=parseInt(x)+0.50;
@@ -45,9 +45,9 @@ var Area = function(width, height) {
     var result = false;
     for(var n in objects) {
       var o = objects[n];
-      if (x <= (o.x + cellSize - 1) && 
+      if (x <= (o.x + that.cellSize - 1) && 
           (x + w) >=  o.x + 1  && 
-          y <= (o.y + cellSize - 1) &&
+          y <= (o.y + that.cellSize - 1) &&
           (y + h) >=  o.y + 1)
         return true;
     }
@@ -59,9 +59,9 @@ var Area = function(width, height) {
     for(var i in data) {
       for(var j in data[i]) {
         if(data[i][j] === 'p') {
-          that.playerPosition = {x: j*cellSize, y: i*cellSize};
+          that.playerPosition = {x: j*that.cellSize, y: i*that.cellSize};
         }else if(data[i][j] !== '0')
-          objects.push({x: j*cellSize, y: i*cellSize, type: Number(data[i][j])-1+''});
+          objects.push({x: j*that.cellSize, y: i*that.cellSize, type: Number(data[i][j])-1+''});
         
       }
     }

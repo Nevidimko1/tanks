@@ -34,21 +34,33 @@ var Tank = function(main, _initX, _initY) {
     disableFire = true;
     setTimeout(function() {disableFire = false}, 500);
   }
+  
+  function round(n) {
+    var diff = n % area.cellSize;
+    var result = n - diff;
+    if(diff >= area.cellSize/2)
+      result+=area.cellSize;
+    return result;
+  }
 
   function addListeners() {
     var pressedKey = null;
     var moveInterval = setInterval(function() {
       if (pressedKey === 37) {
-        if(area.canMove(x-1, y, image.width, image.height, 3)) x--; 
+        if(area.canMove(x-1, y+4, image.width, image.height-8, 3)) x--; 
+        else x = round(x);
         direction = 3;
       } else if (pressedKey === 38) {
-        if(area.canMove(x, y-1, image.width, image.height, 0)) y--; 
+        if(area.canMove(x+4, y-1, image.width-8, image.height, 0)) y--; 
+        else y = round(y);
         direction = 0;
       } else if (pressedKey === 39) {
-        if(area.canMove(x+1, y, image.width, image.height, 1)) x++; 
+        if(area.canMove(x+1, y+4, image.width, image.height-8, 1)) x++; 
+        else x = round(x);
         direction = 1;
       } else if (pressedKey === 40) {
-        if(area.canMove(x, y+1, image.width, image.height, 2)) y++; 
+        if(area.canMove(x+4, y+1, image.width-8, image.height, 2)) y++; 
+        else y = round(y);
         direction = 2;
       }
     }, 10);
