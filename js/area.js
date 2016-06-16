@@ -1,4 +1,4 @@
-var Area = function(width, height) {
+var Area = function(main, width, height) {
   var that = this;
   const canvas = document.createElement("canvas");
   canvas.setAttribute('id', 'canvas');
@@ -54,12 +54,16 @@ var Area = function(width, height) {
     return false;
   }
 
+  this.enemySpawners = [];
+
   function loadMap(data) {
     var objects = [];
     for(var i in data) {
       for(var j in data[i]) {
         if(data[i][j] === 'p') {
           that.playerPosition = {x: j*that.cellSize, y: i*that.cellSize};
+        }else if(data[i][j] === 'e') {
+          that.enemySpawners.push({x: j*that.cellSize, y: i*that.cellSize});
         }else if(data[i][j] !== '0')
           objects.push({x: j*that.cellSize, y: i*that.cellSize, type: Number(data[i][j])-1+''});
         
@@ -70,17 +74,17 @@ var Area = function(width, height) {
 
   //objects on the map
   var names = ['strawberry', 'wall1'];
-  var images = {};
+  var blocks = {};
   for(var n in names) {
-    images[n] = new Image();
-    images[n].src = 'images/' + names[n] + '.png';
+    blocks[n] = new Image();
+    blocks[n].src = 'images/' + names[n] + '.png';
   }
 
   var objects = loadMap(MAP1.data);
   this.drawObjects = function() {
     for(var n in objects) {
       var o = objects[n];
-      this.context.drawImage(images[o.type], o.x, o.y);
+      this.context.drawImage(blocks[o.type], o.x, o.y);
     }
   }
 }
